@@ -1,0 +1,114 @@
+#include <tunables/global>
+
+/usr/lib/slack/slack {
+  #include <abstractions/base>
+  #include <abstractions/audio>
+  #include <abstractions/dbus-session>
+  #include <abstractions/fonts>
+  #include <abstractions/freedesktop.org>
+  #include <abstractions/gnome>
+  #include <abstractions/ibus>
+  #include <abstractions/kde>
+  #include <abstractions/nameservice>
+  #include <abstractions/nvidia>
+  #include <abstractions/ssl_certs>
+  #include <abstractions/user-tmp>
+  #include <abstractions/X>
+  #include <abstractions/ubuntu-browsers.d/user-files>
+
+  /dev/          r,
+  /dev/null      rwk,
+  /dev/tty       rwk,
+  /dev/urandom   r,
+  /dev/dri/card* m,
+  owner          /{dev,run}/shm/pulse-shm* m,
+  /dev/snd/*     m,
+  /dev/video*    mrw,
+
+  /dev/shm/org.chromium.Chromium.* rwmk,
+  /dev/shm/.org.chromium.Chromium.* rwmk,
+  
+  @{PROC}/ r,
+  @{PROC}/sys/kernel/ r,
+  @{PROC}/sys/kernel/shmmax r,
+  @{PROC}/sys/net/* r,
+  @{PROC}/[0-9]*/net/arp r,
+  owner @{PROC}/[0-9]*/auxv r,
+  owner @{PROC}/[0-9]*/cmdline r,
+  owner @{PROC}/[0-9]*/fd/ r,
+  owner @{PROC}/[0-9]*/task/ r,
+  owner @{PROC}/[0-9]*/task/[0-9]*/stat r,
+  @{PROC}/[0-9]*/stat   kr,
+  @{PROC}/[0-9]*/status kr,
+
+  /sys/devices/system/cpu/   r,
+  /sys/devices/system/cpu/** r,
+  /sys/devices/**/power_supply/**/online r,
+  /sys/devices/**/**/* r,
+  /sys/devices/system/cpu/cpu[0-9]*/cpufreq/scaling_{cur_freq,max_freq} r,
+  /sys/bus/   r,
+  /sys/bus/** r,
+
+  /usr/lib/slack/      rwmk,
+  /usr/lib/slack/slack ixr,
+  /usr/lib/slack/**    rwmk,
+  /usr/bin/slack rwmk,
+  /usr/share/locale/   mk,
+  /usr/share/locale/** mk,
+  /usr/share/   kr,
+  /usr/share/** kr,
+  /var/cache/libx11/compose/* r,
+  /usr/bin/xdg-open ixr,
+  /usr/bin/lsb_release ixr,
+  /usr/bin/apt-cache   ixr,
+  /usr/bin/dpkg        ixr,
+  /bin/ip              ixr,
+  /sbin/ifconfig       ixr,
+  /usr/local/lib/      r,
+  /usr/local/lib/**    r,
+  /usr/bin/kde4-config ixr,
+  /etc/python**        r,
+  /etc/dpkg/           r,
+  /etc/dpkg/**         r,
+  /etc/apt/            r,
+  /etc/apt/**          r,
+  /etc/debian_version  r,
+  /etc/udev/           r,
+  /etc/udev/**         r,
+  /run/udev/           r,
+  /run/udev/**         r,
+  /bin/dash            ixr,
+  /usr/bin/kfmclient   ixr,
+  /usr/lib/kde4/       r,
+  /usr/lib/kde4/**     ixr,
+
+  owner @{HOME}/.config/               r,
+  owner @{HOME}/.config/*/             r,
+  owner @{HOME}/.config/qtcurve/       r,
+  owner @{HOME}/.config/qtcurve/**     r,
+  owner @{HOME}/.config/Trolltech.conf kr,
+  owner @{HOME}.config/Slack/          rw,
+  owner @{HOME}.config/Slack/*         krw,
+  owner @{HOME}.config/Slack/**        krw,
+  /usr/share/kde4/config/kdeglobals    r,
+  @{HOME}/.fonts/                      mrk,
+  @{HOME}/.fonts/**                    mrk,
+  @{HOME}/.kde/share/config/gtkrc-2.0  r,
+  @{HOME}/.pki/                        r,
+  @{HOME}/.pki/**                      krw,
+
+  /var/lib/apt      kr,
+  /var/lib/apt/**   kr,
+  /var/cache/apt    kr,
+  /var/cache/apt/** kr,
+
+  /{,usr/,usr/local/}lib/ r,
+
+  deny /etc/passwd m,
+  deny /etc/group m,
+  deny /usr/share/fonts/** m,
+
+  deny /var/cache/fontconfig/ w,
+  deny owner @{HOME}/.fontconfig/ w,
+  deny owner @{HOME}/.fontconfig/*.cache-*.TMP* w,
+}
